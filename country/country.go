@@ -200,9 +200,12 @@ func (c Country) LanguagesList() language.Languages {
 	r, _ := regexp.Compile(`^(^[a-zA-Z]{2})(-)?([a-zA-Z]{2})?$`)
 
 	for _, v := range strings.Split(c.Languages, ",") {
-		l, e := language.Find(r.FindStringSubmatch(v)[1])
-		if e == nil {
-			lgs = append(lgs, *l)
+		buf := r.FindStringSubmatch(v)
+		if len(buf) > 2 {
+			l, e := language.Find(buf[1])
+			if e == nil {
+				lgs = append(lgs, *l)
+			}
 		}
 	}
 
